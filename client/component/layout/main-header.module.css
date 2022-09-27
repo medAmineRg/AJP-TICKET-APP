@@ -1,0 +1,35 @@
+.header {
+  /* width: 100%; */
+  /* min-height: 3em; */
+  background-color: #016d42;
+  color: white;
+  grid-area: nav;
+}
+
+.header nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.01em 1.02em;
+}
+
+.div-link {
+  display: flex;
+}
+
+.div-link li {
+  list-style: none;
+  padding: 0.5rem;
+}
+
+.div-link li a {
+  text-decoration: none;
+  color: white;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border: 1px solid aqua;
+  border-radius: 50%;
+}

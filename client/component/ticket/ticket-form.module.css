@@ -1,0 +1,27 @@
+.form-control {
+  width: 100%;
+}
+
+.form-control label {
+  display: block;
+  margin-bottom: 0.3em;
+  font-weight: 500;
+  color: rgb(27, 27, 27);
+}
+.form-control textarea {
+  resize: none;
+  height: 92px;
+  width: 100%;
+}
+
+.input {
+  padding: 0.8rem 1.5rem;
+  width: 100%;
+  margin-bottom: 1em;
+  border: rgb(138, 120, 120) 1px solid;
+  border-radius: 3px;
+}
+.input:focus {
+  border: #f2972c 2px solid;
+  outline: #f2972c;
+}

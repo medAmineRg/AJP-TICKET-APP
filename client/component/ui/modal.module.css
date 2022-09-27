@@ -1,0 +1,61 @@
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  width: 40%;
+  padding: 40px 40px 20px 40px;
+  z-index: 100;
+  border-radius: 5px;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 100;
+}
+
+.footer-btn {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.footer-btn button {
+  color: white;
+  border-radius: 4px;
+  transition: transform 0.2s;
+}
+
+.flex-end {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  width: 100%;
+}
+
+.footer-btn button:nth-child(2) {
+  background-color: #0a74a8;
+  margin: 0 0 0 0.2rem;
+}
+
+.footer-btn button:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+@media only screen and (max-width: 600px) {
+  .footer-btn {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .footer-btn button {
+    margin-top: 0.2rem;
+    width: 100%;
+  }
+}
