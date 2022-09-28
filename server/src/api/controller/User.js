@@ -9,16 +9,38 @@ const {
 const User = require("../models/User");
 
 const getUsers = async (req, res) => {
+  let { limit, page } = req.query;
+  if (!limit) {
+    limit = 10;
+  }
+  if (!page) {
+    page = 0;
+  }
+  const total = await User.count();
   const user = await User.findAll({
-    attributes: ["idUser", "role", "fullName", "email"],
+    offset: parseInt(limit * page),
+    limit: parseInt(limit),
+    attributes: [
+      ["idUser", "id"],
+      "role",
+      "fullName",
+      "email",
+      "createdAt",
+      "updatedAt",
+    ],
   });
-  return res.status(200).send({ message: "Get all users successfully", user });
+  return res
+    .status(200)
+    .send({ message: "Get all users successfully", user, total });
 };
 
 const signup = async (req, res) => {
-  let { fullName, email, password } = req.body;
-  if (!fullName || !email || !password)
-    customError("You must provide the 'fullName, email and password' ", 400);
+  let { fullName, email, password, role } = req.body;
+  if (!fullName || !email || !password || !role)
+    customError(
+      "You must provide the 'fullName, email, role and password' ",
+      400
+    );
   validateEmail(email);
   if (password.trim().length < 8)
     customError("password must contain at least 8 character", 400);
@@ -26,7 +48,7 @@ const signup = async (req, res) => {
   const checkForEmail = await User.findOne({ where: { email } });
   if (checkForEmail) customError("Email Already exist, please login", 400);
   password = await hashPassword(password);
-  let user = await User.create({ fullName, email, password, role: "Admin" });
+  let user = await User.create({ fullName, email, password, role });
   const token = await generateToken(user.idUser);
   user.password = "";
   res.status(201).json({
@@ -52,16 +74,19 @@ const login = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-  let { fullName, password, email } = req.body;
+  let { fullName, password, email, role } = req.body;
+  if (!fullName && !password && !email && !role)
+    customError("Nothing was changed, you haven not provide any data.", 400);
   if (password) {
     password = await hashPassword(password);
   }
-  let user = req.user;
+  let user = await User.findByPk(req.params.id);
   if (fullName) user.fullName = fullName;
   if (password) user.password = password;
   if (email) user.email = email;
+  if (role) user.role = role;
+
   await user.save();
-  user.password = "";
   res.status(204).send();
 };
 

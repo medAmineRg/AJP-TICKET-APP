@@ -1,7 +1,8 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { loadUser, logout } from "../../features/auth/authSlice";
+import { loadUser } from "../../features/auth/authSlice";
+import classes from "./home.module.css";
 
 export default function HomeCom() {
   const router = useRouter();
@@ -18,5 +19,13 @@ export default function HomeCom() {
     },
     [dispatch, user, router]
   );
-  return <span>Dashboard</span>;
+  return (
+    <div className={classes.container}>
+      <h3>Dashboard</h3>
+
+      <div className={classes.statistics}>
+        <Card />
+      </div>
+    </div>
+  );
 }

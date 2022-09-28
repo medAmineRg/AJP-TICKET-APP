@@ -6,6 +6,7 @@ import {
   FaUserCog,
   FaSignOutAlt,
 } from "react-icons/fa";
+import { CgProfile } from "react-icons/cg";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { useDispatch } from "react-redux";
 import { logout } from "../../features/auth/authSlice";
@@ -31,6 +32,14 @@ function SideBar() {
           </Link>
         </li>
         <li className={classes["side-bar__item"]}>
+          <Link href="/user">
+            <a className={classes["side-bar__link"]}>
+              <span>User</span>
+              <FaUserCog></FaUserCog>
+            </a>
+          </Link>
+        </li>
+        <li className={classes["side-bar__item"]}>
           <Link href="#">
             <a className={classes["side-bar__link"]}>
               <span>Chart</span>
@@ -39,10 +48,10 @@ function SideBar() {
           </Link>
         </li>
         <li className={classes["side-bar__item"]}>
-          <Link href="#">
+          <Link href="/user/profile">
             <a className={classes["side-bar__link"]}>
               <span>Profile</span>
-              <FaUserCog></FaUserCog>
+              <CgProfile></CgProfile>
             </a>
           </Link>
         </li>

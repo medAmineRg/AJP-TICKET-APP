@@ -25,7 +25,6 @@ function MainHeader() {
             </li>
           </div>
         )}
-        {user && <span className={classes.avatar}>MR</span>}
       </nav>
     </div>
   );

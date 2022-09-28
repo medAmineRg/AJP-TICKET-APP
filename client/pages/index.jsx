@@ -1,4 +1,4 @@
-import HomeCom from "../component/home/homeCom";
+import HomeCom from "../component/home/home";
 
 function Home() {
   return <HomeCom />;

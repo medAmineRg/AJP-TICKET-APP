@@ -9,7 +9,6 @@ function TicketFromShow({ id, ticketInfo, setIsOwner, isOwner }) {
   const { User, title, description, urgent, status, creator } = ticket.find(
     ticket => ticket.id == id
   );
-
   useEffect(() => {
     setIsOwner(user.idUser === creator);
     if (user.role === "Admin") {
@@ -81,7 +80,7 @@ function TicketFromShow({ id, ticketInfo, setIsOwner, isOwner }) {
           disabled={!isOwner}
         >
           <option value="Non commencé">Non commencé</option>
-          <option value="En cours">En coups</option>
+          <option value="En cours">En cours</option>
           <option value="Terminé">Terminé</option>
           <option value="Reporté">Reporté</option>
         </select>

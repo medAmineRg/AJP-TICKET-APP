@@ -1,63 +1,99 @@
-const { hash, compare } = require("bcrypt");
-const { sign } = require("jsonwebtoken");
+import formatDistanceToNow from "date-fns/formatDistanceToNow";
+export const ticketColumns = [
+  { field: "id", headerName: "ID", width: 100 },
+  { field: "title", headerName: "Title", width: 130 },
+  { field: "description", headerName: "Description", width: 300 },
+  {
+    field: "User",
+    headerName: "Creator",
+    width: 130,
+  },
+  {
+    field: "urgent",
+    headerName: "Urgent",
+    width: 70,
+    valueFormatter: params => (params.value ? "YES" : "NO"),
+  },
+  {
+    field: "status",
+    headerName: "Status",
+    width: 120,
+  },
+  {
+    field: "createdAt",
+    headerName: "Created At",
+    type: "date",
+    width: 180,
+    valueFormatter: params => formatDistanceToNow(new Date(params.value)),
+  },
 
-const validateEmail = email => {
-  const validRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+  {
+    field: "updatedAt",
+    headerName: "Updated At",
+    type: "date",
+    width: 180,
+    valueFormatter: params => formatDistanceToNow(new Date(params.value)),
+  },
+];
 
-  return email.match(validRegex) ? true : false;
-};
+export const userColumns = [
+  { field: "id", headerName: "ID", width: 100 },
+  { field: "fullName", headerName: "Full Name", width: 130 },
+  { field: "email", headerName: "Email", width: 230 },
 
-const customError = (msg, code) => {
-  const error = new Error(msg);
-  error.code = code;
-  throw error;
-};
+  {
+    field: "role",
+    headerName: "Role",
+    width: 100,
+  },
+  {
+    field: "createdAt",
+    headerName: "Created At",
+    type: "date",
+    width: 180,
+    valueFormatter: params => formatDistanceToNow(new Date(params.value)),
+  },
 
-const successResponse = (api, code, message, result) => {
-  return { api, code, message, result };
-};
+  {
+    field: "updatedAt",
+    headerName: "Updated At",
+    type: "date",
+    width: 180,
+    valueFormatter: params => formatDistanceToNow(new Date(params.value)),
+  },
+];
 
-const sendResponse = (message, code = null, result = null) => {
-  return { message, code, result };
-};
+export const UserData = [
+  // { labels: ["Jun", "Jul", "Aug"] },
 
-const hashPassword = async password => {
-  if (password.length < 8) {
-    throw customError(400, "Password should contain at least 8 character!");
-  }
-  const saltRounds = 10;
-
-  const hashedPassword = await hash(password, saltRounds);
-  return hashedPassword;
-};
-
-const comparePassword = async (password, hashedPassword) => {
-  const match = await compare(password, hashedPassword);
-
-  if (match) {
-    return true;
-  }
-  throw customError("Email or Password might be wrong!!", 400);
-};
-
-const generateToken = async userID => {
-  const token = sign({ userID }, process.env.TOKEN_KEY);
-  return token;
-};
-
-const verifyToken = token => {
-  const decoded = verify(token, process.env.TOKEN_KEY);
-  if (decoded) return decoded;
-  customError(400, "Invalid token!");
-};
-
-module.exports = {
-  validateEmail,
-  customError,
-  hashPassword,
-  comparePassword,
-  generateToken,
-  verifyToken,
-  successResponse,
-  sendResponse,
-};
+  {
+    id: 1,
+    year: 2016,
+    userGain: 80000,
+    userLost: 823,
+  },
+  {
+    id: 2,
+    year: 2017,
+    userGain: 45677,
+    userLost: 345,
+  },
+  {
+    id: 3,
+    year: 2018,
+    userGain: 78888,
+    userLost: 555,
+  },
+  {
+    id: 4,
+    year: 2019,
+    userGain: 90000,
+    userLost: 4555,
+  },
+  {
+    id: 5,
+    year: 2020,
+    userGain: 4300,
+    userLost: 234,
+  },
+];

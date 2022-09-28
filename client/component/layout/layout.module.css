@@ -2,12 +2,25 @@
   display: grid;
   width: 100%;
   grid-template-columns: 0.1fr 1fr 1fr 1fr;
-  grid-template-rows: 80px 1fr 1fr 60px;
+  grid-template-rows: 60px 1fr 1fr 60px;
 
   grid-template-areas:
     "sidebar nav nav nav"
     "sidebar main main main"
     "sidebar main main main"
+    "footer footer footer footer";
+}
+
+.auth {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr;
+  grid-template-rows: 80px 1fr 60px;
+
+  grid-template-areas:
+    "nav nav nav nav"
+    "main main main main"
+    "main main main main"
     "footer footer footer footer";
 }
 

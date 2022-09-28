@@ -1,45 +1,6 @@
 import { DataGrid } from "@mui/x-data-grid";
 import { useDispatch } from "react-redux";
 import classes from "./table.module.css";
-import formatDistanceToNow from "date-fns/formatDistanceToNow";
-
-const columns = [
-  { field: "id", headerName: "ID", width: 100 },
-  { field: "title", headerName: "Title", width: 130 },
-  { field: "description", headerName: "Description", width: 300 },
-  {
-    field: "User",
-    headerName: "Creator",
-    width: 130,
-  },
-  {
-    field: "urgent",
-    headerName: "Urgent",
-    width: 70,
-    valueFormatter: params => (params.value ? "YES" : "NO"),
-  },
-  {
-    field: "status",
-    headerName: "Status",
-    width: 120,
-  },
-  {
-    field: "createdAt",
-    headerName: "Created At",
-    type: "date",
-    width: 180,
-    valueFormatter: params => formatDistanceToNow(new Date(params.value)),
-  },
-
-  {
-    field: "updatedAt",
-    headerName: "Updated At",
-    type: "date",
-    width: 180,
-    valueFormatter: params => formatDistanceToNow(new Date(params.value)),
-  },
-];
-
 export default function DataTable({
   rows,
   isLoading,
@@ -49,6 +10,7 @@ export default function DataTable({
   setPage,
   setPageSize,
   setSelectedRow,
+  columns,
 }) {
   const dispatch = useDispatch();
   return (
@@ -67,7 +29,6 @@ export default function DataTable({
           dispatch(setPage(newPage));
         }}
         onSelectionModelChange={item => {
-          console.log(item);
           setSelectedRow(item[0]);
         }}
         onPageSizeChange={newPageSize => {

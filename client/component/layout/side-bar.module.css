@@ -2,7 +2,7 @@
   background-color: var(--bg-primary);
   transition: width 600ms ease;
   grid-area: sidebar;
-  height: 110vh;
+  height: 100vh;
 }
 
 .side-bar__items {

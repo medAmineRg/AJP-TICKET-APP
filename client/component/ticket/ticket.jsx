@@ -18,6 +18,7 @@ import Modal from "../ui/modal";
 import TicketForm from "./ticket-form";
 import TicketFromShow from "./ticket-from-show";
 import { toast } from "react-toastify";
+import { ticketColumns } from "../../utils/utils";
 
 function Ticket() {
   let { ticket, total, page, pageSize, isLoading } = useSelector(
@@ -59,7 +60,7 @@ function Ticket() {
     return function cleanup() {
       dispatch(reset());
     };
-  }, [dispatch, user, page, pageSize]);
+  }, [dispatch, user, page, pageSize, router]);
 
   const onSubmit = async () => {
     dispatch(createTicket(ticketInfo))
@@ -124,6 +125,7 @@ function Ticket() {
         setPage={setPage}
         setPageSize={setPageSize}
         setSelectedRow={setSelectedRow}
+        columns={ticketColumns}
       />
       <Modal
         open={remove}

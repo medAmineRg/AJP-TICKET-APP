@@ -34,7 +34,7 @@ export const getTicket = createAsyncThunk(
 );
 
 export const createTicket = createAsyncThunk(
-  "ticket/create",
+  "ticket/post",
   async (ticket, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;

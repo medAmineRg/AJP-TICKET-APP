@@ -36,7 +36,7 @@ const Ticket = sequelize.define(
     status: {
       type: DataTypes.STRING(20),
       validate: {
-        isIn: [["Non commencé", "En coups", "Terminé", "Reporté"]],
+        isIn: [["Non commencé", "En cours", "Terminé", "Reporté"]],
       },
       defaultValue: "Non commencé",
     },

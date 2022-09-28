@@ -4,7 +4,6 @@ import classes from "./modal.module.css";
 
 const Modal = ({ open, children, onClose, submit, setRemove, z, isOwner }) => {
   if (!open) return null;
-  console.log(isOwner);
   return (
     <>
       <div style={{ zIndex: z }} className={classes.overlay}></div>
