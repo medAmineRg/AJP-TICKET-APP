@@ -1,4 +1,4 @@
-import { Provider } from "react-redux";
+import { Provider, useDispatch, useSelector } from "react-redux";
 import { store } from "../app/store";
 import Layout from "../component/layout/layout";
 import "../styles/globals.css";

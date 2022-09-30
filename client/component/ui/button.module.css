@@ -1,5 +1,17 @@
 .btn {
-  padding: 10px 14px;
+  padding: 0.5rem 0.8rem;
   border: 0;
   background-color: var(--bg-primary);
+  cursor: pointer;
+}
+
+.btn {
+  border-radius: 4px;
+  transition: transform 0.2s;
+}
+
+.btn:hover {
+  cursor: pointer;
+  transform: scale(1.01);
+  background-color: var(--bg-secondary);
 }

@@ -14,7 +14,7 @@ function TicketFromShow({ id, ticketInfo, setIsOwner, isOwner }) {
     if (user.role === "Admin") {
       setIsOwner(true);
     }
-  }, [setIsOwner]);
+  }, []);
   return (
     <>
       <div className={classes["form-control"]}>
@@ -67,10 +67,7 @@ function TicketFromShow({ id, ticketInfo, setIsOwner, isOwner }) {
         </select>
       </div>
 
-      <div
-        className={classes["form-control"]}
-        style={{ display: user.role !== "Admin" && "none" }}
-      >
+      <div className={classes["form-control"]}>
         <label>status</label>
         <select
           name="status"
@@ -79,10 +76,10 @@ function TicketFromShow({ id, ticketInfo, setIsOwner, isOwner }) {
           defaultValue={status}
           disabled={!isOwner}
         >
-          <option value="Non commencé">Non commencé</option>
-          <option value="En cours">En cours</option>
-          <option value="Terminé">Terminé</option>
-          <option value="Reporté">Reporté</option>
+          <option value="Not Started">Not Started</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Completed">Completed</option>
+          <option value="Postpone">Postpone</option>
         </select>
       </div>
     </>

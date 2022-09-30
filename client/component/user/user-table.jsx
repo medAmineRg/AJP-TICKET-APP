@@ -36,7 +36,22 @@ function UserTable() {
   const { user } = useSelector(state => state.auth);
 
   useEffect(() => {
-    if (user) {
+    if (user && user.role === "User") {
+      router.replace("/");
+    }
+
+    if (
+      typeof localStorage.getItem("user") == "object" ||
+      !localStorage.getItem("user")
+    ) {
+      router.replace("/login");
+    }
+
+    if (localStorage.getItem("user") && !user) {
+      dispatch(loadUser(JSON.parse(localStorage.getItem("user"))));
+    }
+
+    if (user && user.role == "Admin") {
       dispatch(getUsers({ page, limit: pageSize }))
         .unwrap()
         .then(res => {
@@ -48,15 +63,6 @@ function UserTable() {
           toast.error(e.message);
         });
     }
-
-    if (!localStorage.getItem("user")) {
-      router.replace("/login");
-    }
-
-    if (localStorage.getItem("user") && !user) {
-      dispatch(loadUser(JSON.parse(localStorage.getItem("user"))));
-    }
-
     return function cleanup() {
       dispatch(reset());
     };

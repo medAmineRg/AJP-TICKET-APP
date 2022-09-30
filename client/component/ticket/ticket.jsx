@@ -36,6 +36,9 @@ function Ticket() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if (localStorage.getItem("user") && !user) {
+      dispatch(loadUser(JSON.parse(localStorage.getItem("user"))));
+    }
     if (user) {
       dispatch(getTicket({ page, limit: pageSize }))
         .unwrap()
@@ -49,12 +52,11 @@ function Ticket() {
         });
     }
 
-    if (!localStorage.getItem("user")) {
+    if (
+      typeof localStorage.getItem("user") == "object" ||
+      !localStorage.getItem("user")
+    ) {
       router.replace("/login");
-    }
-
-    if (localStorage.getItem("user") && !user) {
-      dispatch(loadUser(JSON.parse(localStorage.getItem("user"))));
     }
 
     return function cleanup() {

@@ -36,6 +36,8 @@ const getUsers = async (req, res) => {
 
 const signup = async (req, res) => {
   let { fullName, email, password, role } = req.body;
+  if (!role) role = "User";
+
   if (!fullName || !email || !password || !role)
     customError(
       "You must provide the 'fullName, email, role and password' ",

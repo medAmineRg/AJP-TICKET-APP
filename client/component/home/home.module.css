@@ -6,6 +6,21 @@
 }
 
 .statistics {
-  width: 90%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.statistics div {
+  margin: 1rem;
+}
+
+.chart {
   background-color: white;
+  margin-top: 1rem !important;
+}
+
+.chart > h3 {
+  padding: 0.3rem;
 }

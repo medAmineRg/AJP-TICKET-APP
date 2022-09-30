@@ -6,6 +6,7 @@ const {
 const Ticket = require("../models/Ticket");
 const User = require("../models/User");
 const Sequelize = require("sequelize");
+const sequelize = require("../../config/db");
 const getTickets = async (req, res) => {
   let { limit, page } = req.query;
   if (!limit) {
@@ -70,12 +71,12 @@ const createTicket = async (req, res) => {
 const updateTicket = async (req, res) => {
   const ticket = await Ticket.findByPk(req.params.id);
   if (!ticket) customError("No Ticket was found", 404);
+  if (req.user.idUser !== ticket.creator || req.user.role !== "Admin")
+    customError("You do not have permission to do that", 403);
   let { title, status, description, urgent } = req.body;
-
   if (!title && !status && !description && !urgent)
     customError("You did not change anything!", 400);
 
-  console.log(title, status, description, urgent);
   if (title) ticket.title = title;
   if (status) ticket.status = status;
   if (description) ticket.description = description;
@@ -86,10 +87,63 @@ const updateTicket = async (req, res) => {
 };
 
 const deleteTicket = async (req, res) => {
+  if (req.user.idUser !== ticket.creator || req.user.role !== "Admin")
+    customError("You do not have permission to do that", 403);
   const ticket = await Ticket.destroy({ where: { idTicket: req.params.id } });
 
   if (!ticket) customError("No Ticket was found", 404);
   return res.status(204).send();
+};
+
+const statistics = async (req, res) => {
+  const totalTickets = await Ticket.findAll({
+    raw: true,
+    attributes: [
+      [Sequelize.fn("COUNT", Sequelize.col("idTicket")), "totalTickets"],
+    ],
+  });
+
+  const completedTickets = await Ticket.findAll({
+    raw: true,
+    where: {
+      status: "Completed",
+    },
+    attributes: [
+      [Sequelize.fn("COUNT", Sequelize.col("idTicket")), "completedTickets"],
+    ],
+  });
+
+  const notStartedTickets = await Ticket.findAll({
+    raw: true,
+    where: {
+      status: "Not Started",
+    },
+    attributes: [
+      [Sequelize.fn("COUNT", Sequelize.col("idTicket")), "notStartedTickets"],
+    ],
+  });
+
+  const pendingTickets = await Ticket.findAll({
+    raw: true,
+    where: {
+      status: "In Progress",
+    },
+    attributes: [
+      [Sequelize.fn("COUNT", Sequelize.col("idTicket")), "pendingTickets"],
+    ],
+  });
+
+  const ticketsByMonths = await sequelize.query(
+    "SELECT DATENAME(month, createdAt) as month, count(createdAt) as tickets FROM [AJP_TICKET].[dbo].[ticket] where DATENAME(year, createdAt) = DATENAME(year, GETDATE()) group by DATENAME(month, createdAt)",
+    { type: Sequelize.QueryTypes }
+  );
+  res.send({
+    notStartedTickets: notStartedTickets[0].notStartedTickets,
+    pendingTickets: pendingTickets[0].pendingTickets,
+    totalTickets: totalTickets[0].totalTickets,
+    completedTickets: completedTickets[0].completedTickets,
+    ticketsByMonths: ticketsByMonths,
+  });
 };
 
 module.exports = {
@@ -98,4 +152,5 @@ module.exports = {
   getTicketById,
   updateTicket,
   deleteTicket,
+  statistics,
 };

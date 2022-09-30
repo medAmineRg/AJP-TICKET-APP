@@ -8,10 +8,11 @@ import {
 } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 import { AiOutlineDashboard } from "react-icons/ai";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../features/auth/authSlice";
 function SideBar() {
   const dispatch = useDispatch();
+  const { user } = useSelector(state => state.auth);
   return (
     <div className={classes["side-bar"]}>
       <ul className={classes["side-bar__items"]}>
@@ -31,22 +32,16 @@ function SideBar() {
             </a>
           </Link>
         </li>
-        <li className={classes["side-bar__item"]}>
-          <Link href="/user">
-            <a className={classes["side-bar__link"]}>
-              <span>User</span>
-              <FaUserCog></FaUserCog>
-            </a>
-          </Link>
-        </li>
-        <li className={classes["side-bar__item"]}>
-          <Link href="#">
-            <a className={classes["side-bar__link"]}>
-              <span>Chart</span>
-              <FaChartBar></FaChartBar>
-            </a>
-          </Link>
-        </li>
+        {user.role === "Admin" && (
+          <li className={classes["side-bar__item"]}>
+            <Link href="/user">
+              <a className={classes["side-bar__link"]}>
+                <span>User</span>
+                <FaUserCog></FaUserCog>
+              </a>
+            </Link>
+          </li>
+        )}
         <li className={classes["side-bar__item"]}>
           <Link href="/user/profile">
             <a className={classes["side-bar__link"]}>

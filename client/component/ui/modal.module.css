@@ -46,6 +46,7 @@
 .footer-btn button:hover {
   cursor: pointer;
   transform: scale(1.1);
+  background-color: var(--bg-secondary);
 }
 
 @media only screen and (max-width: 600px) {
