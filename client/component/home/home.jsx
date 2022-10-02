@@ -26,7 +26,7 @@ export default function HomeCom() {
         typeof localStorage.getItem("user") == "object" ||
         !localStorage.getItem("user")
       ) {
-        router.replace("/login");
+        router.push("/login");
       }
 
       if (typeof localStorage.getItem("user") == "string" && !user) {
@@ -62,7 +62,6 @@ export default function HomeCom() {
     });
   }
 
-  console.log(statistics);
   return (
     <div className={classes.container}>
       <h3>Dashboard</h3>

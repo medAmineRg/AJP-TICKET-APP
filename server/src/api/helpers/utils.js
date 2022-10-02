@@ -1,12 +1,6 @@
 const { hash, compare } = require("bcrypt");
 const { sign, verify } = require("jsonwebtoken");
 
-const validateEmail = email => {
-  const validRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
-
-  if (!email.match(validRegex)) customError("email isn't valid", 400);
-};
-
 const customError = (msg, code) => {
   const error = new Error(msg);
   error.code = code;
@@ -48,7 +42,6 @@ const verifyToken = token => {
 };
 
 module.exports = {
-  validateEmail,
   customError,
   hashPassword,
   comparePassword,

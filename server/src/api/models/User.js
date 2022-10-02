@@ -13,7 +13,10 @@ const User = sequelize.define(
       type: DataTypes.STRING(50),
       unique: true,
       validate: {
-        isEmail: true,
+        isEmail: {
+          args: true,
+          msg: "Please enter a valid email",
+        },
       },
     },
     fullName: {
@@ -21,7 +24,7 @@ const User = sequelize.define(
       validate: {
         len: {
           args: [5, 30],
-          msg: "Name length must be between 5 and 30",
+          msg: "Fullname length must be between 5 and 30",
         },
       },
     },

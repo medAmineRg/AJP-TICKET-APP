@@ -56,7 +56,7 @@ function UserForm({ userInfo, idUser, remove }) {
   return (
     <>
       <div className={classes["form-control"]}>
-        <label>fullName</label>
+        <label>Fullname</label>
         <input
           className={classes.input}
           type="text"
@@ -87,8 +87,15 @@ function UserForm({ userInfo, idUser, remove }) {
       </div>
       <div className={classes["form-control"]}>
         <label>Role</label>
-        <select name="role" className={classes.input} onChange={userInfo}>
-          <option>Choose a Role</option>
+        <select
+          name="role"
+          className={classes.input}
+          onChange={userInfo}
+          defaultValue={"Choose"}
+        >
+          <option value="Choose" disabled>
+            Choose a Role
+          </option>
           <option value="User">User</option>
           <option value="Admin">Admin</option>
         </select>

@@ -9,6 +9,7 @@ function TicketFromShow({ id, ticketInfo, setIsOwner, isOwner }) {
   const { User, title, description, urgent, status, creator } = ticket.find(
     ticket => ticket.id == id
   );
+  console.log(urgent);
   useEffect(() => {
     setIsOwner(user.idUser === creator);
     if (user.role === "Admin") {
@@ -59,10 +60,10 @@ function TicketFromShow({ id, ticketInfo, setIsOwner, isOwner }) {
           name="urgent"
           className={classes.input}
           onChange={ticketInfo}
-          defaultValue={urgent}
+          defaultValue={urgent ? "1" : "0"}
           disabled={!isOwner}
         >
-          <option value="0">Non</option>
+          <option value="0">No</option>
           <option value="1">Yes</option>
         </select>
       </div>

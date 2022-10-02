@@ -1,7 +1,5 @@
 import { useRouter } from "next/router";
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { loadUser } from "../../features/auth/authSlice";
@@ -23,13 +21,13 @@ import UserForm from "./user-form";
 
 function UserTable() {
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const [selectedRow, setSelectedRow] = useState(null);
   const [open, setOpen] = useState(false);
   const [remove, setRemove] = useState(false);
   const [userInfo, setUserInfo] = useState({});
 
-  const dispatch = useDispatch();
   const { users, isLoading, total, page, pageSize } = useSelector(
     state => state.users
   );
@@ -51,22 +49,22 @@ function UserTable() {
       dispatch(loadUser(JSON.parse(localStorage.getItem("user"))));
     }
 
-    if (user && user.role == "Admin") {
-      dispatch(getUsers({ page, limit: pageSize }))
-        .unwrap()
-        .then(res => {
-          console.log(res.message);
-          toast.success(res.message);
-        })
-        .catch(e => {
-          console.log(e);
-          toast.error(e.message);
-        });
-    }
     return function cleanup() {
       dispatch(reset());
     };
-  }, [dispatch, user, page, pageSize, router]);
+  }, [dispatch, user, router]);
+  useEffect(() => {
+    if (user) {
+      dispatch(getUsers({ page, limit: pageSize }))
+        .unwrap()
+        .then(res => {
+          toast.success(res.message);
+        })
+        .catch(e => {
+          toast.error(e.message);
+        });
+    }
+  }, [dispatch, user, page, pageSize]);
 
   const onSubmit = async () => {
     dispatch(createUser(userInfo))
@@ -75,6 +73,7 @@ function UserTable() {
         toast.success(res.message);
         dispatch(getUsers({ page, limit: pageSize }));
         setOpen(false);
+        setUserInfo({});
       })
       .catch(e => {
         toast.error(e);
@@ -102,6 +101,7 @@ function UserTable() {
         setSelectedRow(prev => null);
         setRemove(prev => !prev);
         dispatch(getUsers({ page, limit: pageSize }));
+        setUserInfo({});
       })
       .catch(e => {
         toast.error(e);

@@ -1,4 +1,4 @@
-import UserTable from "../../component/user/user-table.jsx";
+import UserTable from "../../component/user/user.jsx";
 
 function User() {
   return <UserTable />;

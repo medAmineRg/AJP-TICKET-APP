@@ -39,18 +39,6 @@ function Ticket() {
     if (localStorage.getItem("user") && !user) {
       dispatch(loadUser(JSON.parse(localStorage.getItem("user"))));
     }
-    if (user) {
-      dispatch(getTicket({ page, limit: pageSize }))
-        .unwrap()
-        .then(res => {
-          console.log(res.message);
-          toast.success(res.message);
-        })
-        .catch(e => {
-          console.log(e);
-          toast.error(e.message);
-        });
-    }
 
     if (
       typeof localStorage.getItem("user") == "object" ||
@@ -62,7 +50,20 @@ function Ticket() {
     return function cleanup() {
       dispatch(reset());
     };
-  }, [dispatch, user, page, pageSize, router]);
+  }, [dispatch, user, router]);
+
+  useEffect(() => {
+    if (user) {
+      dispatch(getTicket({ page, limit: pageSize }))
+        .unwrap()
+        .then(res => {
+          toast.success(res.message);
+        })
+        .catch(e => {
+          toast.error(e.message);
+        });
+    }
+  }, [user, page, pageSize]);
 
   const onSubmit = async () => {
     dispatch(createTicket(ticketInfo))
@@ -70,6 +71,7 @@ function Ticket() {
       .then(res => {
         toast.success(res.message);
         dispatch(getTicket());
+        setTicketInfo({});
         setOpen(false);
       })
       .catch(e => {

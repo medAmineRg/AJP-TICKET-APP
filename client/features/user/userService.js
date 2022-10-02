@@ -2,14 +2,20 @@ import axios from "axios";
 
 const URL = process.env.NEXT_PUBLIC_URL;
 
-const getUsers = async token => {
+const getUsers = async (pagination, token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
 
-  const response = await axios.get(URL + "user", config);
+  const response = await axios.get(
+    URL +
+      `user?limit=${pagination ? pagination.limit : 10}&page=${
+        pagination ? pagination.page : 0
+      }`,
+    config
+  );
   return response.data;
 };
 

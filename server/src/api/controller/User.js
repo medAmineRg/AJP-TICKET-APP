@@ -1,8 +1,6 @@
 const {
-  successResponse,
   hashPassword,
   customError,
-  validateEmail,
   generateToken,
   comparePassword,
 } = require("../helpers/utils");
@@ -36,14 +34,10 @@ const getUsers = async (req, res) => {
 
 const signup = async (req, res) => {
   let { fullName, email, password, role } = req.body;
-  if (!role) role = "User";
+  if (!role || role !== "User" || role !== "Admin") role = "User";
 
-  if (!fullName || !email || !password || !role)
-    customError(
-      "You must provide the 'fullName, email, role and password' ",
-      400
-    );
-  validateEmail(email);
+  if (!fullName || !email || !password)
+    customError("You must provide 'Fullname, email and password' ", 400);
   if (password.trim().length < 8)
     customError("password must contain at least 8 character", 400);
 

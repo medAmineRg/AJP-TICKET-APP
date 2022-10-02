@@ -13,9 +13,9 @@ function MainHeader() {
       }
       className={classes.header}
     >
-      <nav>
-        <div>AJP-Ticket</div>
-        {!user && (
+      {!user && (
+        <nav>
+          <div>AJP-Ticket</div>
           <div className={classes["div-link"]}>
             <li>
               <Link href="/login">Login</Link>
@@ -24,8 +24,8 @@ function MainHeader() {
               <Link href="/signup">Signup</Link>
             </li>
           </div>
-        )}
-      </nav>
+        </nav>
+      )}
     </div>
   );
 }
