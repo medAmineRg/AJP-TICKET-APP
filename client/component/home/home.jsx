@@ -14,7 +14,8 @@ export default function HomeCom() {
   const [statistics, setStatistics] = useState({});
   const router = useRouter();
   const dispatch = useDispatch();
-  const { user, isLoading } = useSelector(state => state.auth);
+  let { user } = useSelector(state => state.auth);
+
   const getStatistics = async () => {
     const response = await axios.get("http://localhost:5000/ticket/statistics");
     setStatistics(response.data);
@@ -61,7 +62,6 @@ export default function HomeCom() {
       obj[m.month] = m.tickets;
     });
   }
-
   return (
     <div className={classes.container}>
       <h3>Dashboard</h3>

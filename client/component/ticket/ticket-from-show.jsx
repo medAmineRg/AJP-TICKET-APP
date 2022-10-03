@@ -4,7 +4,7 @@ import classes from "./ticket-form.module.css";
 
 function TicketFromShow({ id, ticketInfo, setIsOwner, isOwner }) {
   const { ticket } = useSelector(state => state.ticket);
-  const { user } = useSelector(state => state.auth);
+  const { user, isLoading } = useSelector(state => state.auth);
 
   const { User, title, description, urgent, status, creator } = ticket.find(
     ticket => ticket.id == id
@@ -16,6 +16,8 @@ function TicketFromShow({ id, ticketInfo, setIsOwner, isOwner }) {
       setIsOwner(true);
     }
   }, []);
+  if (isLoading) return <Spinner />;
+
   return (
     <>
       <div className={classes["form-control"]}>

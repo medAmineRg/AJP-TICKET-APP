@@ -48,7 +48,7 @@ function SignUpCom() {
       console.log(error);
     }
   };
-  // if (loading) return <h1>Loading...</h1>;
+  if (isLoading) return <Spinner />;
 
   return (
     <div className={classes.container}>

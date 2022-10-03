@@ -16,6 +16,7 @@ import { userColumns } from "../../utils/utils";
 import classes from "../ticket/ticket.module.css";
 import Button from "../ui/button";
 import Modal from "../ui/modal";
+import Spinner from "../ui/spinner";
 import DataTable from "../ui/table";
 import UserForm from "./user-form";
 
@@ -110,6 +111,8 @@ function UserTable() {
   const onUserForm = e => {
     setUserInfo(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
+  if (isLoading) return <Spinner />;
+
   return (
     <>
       <div className={classes.right}>

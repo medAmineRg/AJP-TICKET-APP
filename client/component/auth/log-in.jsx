@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 import classes from "./sign-up.module.css";
 import { loadUser, login, reset } from "../../features/auth/authSlice";
+import Spinner from "../ui/spinner";
 
 function LogInCom() {
   const [signupData, setSignupData] = useState({});
@@ -42,7 +43,7 @@ function LogInCom() {
       console.log(error);
     }
   };
-  // if (loading) return <h1>Loading...</h1>;
+  if (isLoading) return <Spinner />;
 
   return (
     <div className={classes.container}>

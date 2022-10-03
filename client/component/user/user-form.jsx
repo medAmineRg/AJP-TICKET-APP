@@ -1,9 +1,12 @@
 import { useSelector } from "react-redux";
 import classes from "../ticket/ticket-form.module.css";
+import Spinner from "../ui/spinner";
 function UserForm({ userInfo, idUser, remove }) {
   if (idUser && !remove) {
-    const { users } = useSelector(state => state.users);
+    const { users, isLoading } = useSelector(state => state.users);
     let { fullName, email, role } = users.find(user => user.id == idUser);
+    if (isLoading) return <Spinner />;
+
     return (
       <>
         <div className={classes["form-control"]}>

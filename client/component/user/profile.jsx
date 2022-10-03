@@ -52,6 +52,7 @@ function Profile() {
   const onUserForm = e => {
     setUserInfo(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
+
   return (
     <>
       <div className={classes.container}>

@@ -19,6 +19,7 @@ import TicketForm from "./ticket-form";
 import TicketFromShow from "./ticket-from-show";
 import { toast } from "react-toastify";
 import { ticketColumns } from "../../utils/utils";
+import Spinner from "../ui/spinner";
 
 function Ticket() {
   let { ticket, total, page, pageSize, isLoading } = useSelector(
@@ -109,6 +110,8 @@ function Ticket() {
   const onTicketForm = e => {
     setTicketInfo(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
+  if (isLoading) return <Spinner />;
+
   return (
     <>
       <div className={classes.right}>
