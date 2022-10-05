@@ -7,7 +7,15 @@ const sequelize = new Sequelize(
   process.env.MSSQL_PS,
   {
     dialect: "mssql",
-    host: "localhost",
+    host: process.env.HOST,
+
+    dialectOptions: {
+      // Observe the need for this nested `options` field for MSSQL
+      options: {
+        encrypt: false,
+        trustServerCertificate: true,
+      },
+    },
   }
 );
 module.exports = sequelize;

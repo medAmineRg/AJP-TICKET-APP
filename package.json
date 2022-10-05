@@ -13,8 +13,9 @@
   "description": "ticket app",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon src/api/app.js",
-    "test": "npm run test"
+    "dev": "nodemon server/src/api/app.js",
+    "test": "npm run test",
+    "prod": "node server/src/api/app.js"
   },
   "author": "mohamed amine",
   "license": "ISC"

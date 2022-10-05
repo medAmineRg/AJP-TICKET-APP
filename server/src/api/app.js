@@ -12,10 +12,11 @@ const db = require("../config/db");
 const Role = require("./models/Role");
 const Ticket = require("./models/Ticket");
 const User = require("./models/User");
-const Menu = require("./models/Menu");
 
 db.authenticate()
   .then(async () => {
+    await db.sync({ force: "true" });
+    console.log("Sync DB Successfully");
     console.log("connect to the database:");
     // await db.sync({ force: true });
   })
