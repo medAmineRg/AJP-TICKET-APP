@@ -10,6 +10,7 @@ import { CgProfile } from "react-icons/cg";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../features/auth/authSlice";
+import { toast } from "react-toastify";
 function SideBar() {
   const dispatch = useDispatch();
   const { user } = useSelector(state => state.auth);
@@ -54,6 +55,7 @@ function SideBar() {
           className={classes["side-bar__item"]}
           onClick={() => {
             dispatch(logout());
+            toast.success("Logged Out successfully");
           }}
         >
           <a className={classes["side-bar__link"]}>

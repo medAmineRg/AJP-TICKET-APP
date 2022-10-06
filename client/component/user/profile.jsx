@@ -12,9 +12,11 @@ import Modal from "../ui/modal";
 import { useState } from "react";
 import { updateUser } from "../../features/user/userSlice";
 import { toast } from "react-toastify";
+import Spinner from "../ui/spinner";
 
 function Profile() {
   const [userInfo, setUserInfo] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const { user } = useSelector(state => state.auth);
   const router = useRouter();
@@ -29,6 +31,7 @@ function Profile() {
 
     if (localStorage.getItem("user") && !user) {
       dispatch(loadUser(JSON.parse(localStorage.getItem("user"))));
+      setIsLoading(false);
     }
   }, [dispatch, user, router]);
 
@@ -53,6 +56,7 @@ function Profile() {
     setUserInfo(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  if (isLoading) <Spinner />;
   return (
     <>
       <div className={classes.container}>

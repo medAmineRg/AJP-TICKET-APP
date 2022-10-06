@@ -3,11 +3,13 @@ import classes from "./sign-up.module.css";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser, reset, signup } from "../../features/auth/authSlice";
+import { toast } from "react-toastify";
+import Spinner from "../ui/spinner";
 
 function SignUpCom() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { user, isLoading, isError, isSuccess, message } = useSelector(
+  const { user, isError, isSuccess, message } = useSelector(
     state => state.auth
   );
   const [signupData, setSignupData] = useState({});
@@ -18,11 +20,15 @@ function SignUpCom() {
     }
 
     if (isError) {
-      console.log(message);
+      toast.error(message);
     }
 
     if (isSuccess || user) {
       router.replace("/");
+    }
+
+    if (isSuccess) {
+      toast.success(message);
     }
 
     return function cleanup() {
@@ -36,19 +42,10 @@ function SignUpCom() {
   const onSubmit = async e => {
     e.preventDefault();
     if (signupData.password !== signupData.password2)
-      return console.log(
-        signupData.password,
-        signupData.password2,
-        "password doesn't match"
-      );
+      return toast.error("Passwords does not match");
 
-    try {
-      dispatch(signup(signupData));
-    } catch (error) {
-      console.log(error);
-    }
+    dispatch(signup(signupData));
   };
-  if (isLoading) return <Spinner />;
 
   return (
     <div className={classes.container}>
