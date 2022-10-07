@@ -71,7 +71,7 @@ const createTicket = async (req, res) => {
 const updateTicket = async (req, res) => {
   const ticket = await Ticket.findByPk(req.params.id);
   if (!ticket) customError("No Ticket was found", 404);
-  if (req.user.idUser !== ticket.creator || req.user.role !== "Admin")
+  if (req.user.idUser !== ticket.creator && req.user.role !== "Admin")
     customError("You do not have permission to do that", 403);
   let { title, status, description, urgent } = req.body;
   if (!title && !status && !description && !urgent)
