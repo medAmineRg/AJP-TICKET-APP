@@ -60,14 +60,16 @@ app.use((err, req, res, next) => {
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../../../client/out")));
-
   app.get("*", (req, res) => {
-    if (pathMap.has(req.path.slice(0, req.path.length - 1)))
+    let params =
+      req.path.slice(req.path.length - 1) === "/" ? req.path : req.path + "/";
+    console.log(params);
+    if (pathMap.has(params.slice(0, params.length - 1)))
       res.sendFile(
         path.resolve(
           path.join(
             __dirname,
-            `../../../client/out/${req.path.slice(1, req.path.length - 1)}.html`
+            `../../../client/out/${params.slice(1, params.length - 1)}.html`
           )
         )
       );

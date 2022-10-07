@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const {
   hashPassword,
   customError,
@@ -26,6 +27,11 @@ const getUsers = async (req, res) => {
       "createdAt",
       "updatedAt",
     ],
+    where: {
+      role: {
+        [Op.ne]: "Admin",
+      },
+    },
   });
   return res
     .status(200)

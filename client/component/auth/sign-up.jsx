@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser, reset, signup } from "../../features/auth/authSlice";
 import { toast } from "react-toastify";
-import Spinner from "../ui/spinner";
+import Button from "../ui/button";
 
 function SignUpCom() {
   const router = useRouter();
@@ -91,7 +91,7 @@ function SignUpCom() {
           />
         </div>
         <div className={classes["from-control"]}>
-          <button>Submit</button>
+          <Button placeholder={"Sign Up"}></Button>
         </div>
       </form>
     </div>

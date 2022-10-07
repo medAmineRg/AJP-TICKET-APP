@@ -134,10 +134,10 @@ const statistics = async (req, res) => {
   });
 
   const ticketsByMonths = await sequelize.query(
-    "SELECT DATENAME(month, createdAt) as month, count(createdAt) as tickets FROM [AJP_TICKET].[dbo].[ticket] where DATENAME(year, createdAt) = DATENAME(year, GETDATE()) group by DATENAME(month, createdAt)",
+    `SELECT DATENAME(month, createdAt) as month, count(createdAt) as tickets FROM ${process.env.MSSQL_DB}.[dbo].[ticket] where DATENAME(year, createdAt) = DATENAME(year, GETDATE()) group by DATENAME(month, createdAt)`,
     { type: Sequelize.QueryTypes }
   );
-  res.send({
+  return res.status(200).send({
     notStartedTickets: notStartedTickets[0].notStartedTickets,
     pendingTickets: pendingTickets[0].pendingTickets,
     totalTickets: totalTickets[0].totalTickets,

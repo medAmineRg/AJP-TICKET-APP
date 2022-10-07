@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import classes from "./sign-up.module.css";
 import { loadUser, login, reset } from "../../features/auth/authSlice";
 import { toast } from "react-toastify";
-import Spinner from "../ui/spinner";
+import Button from "../ui/button";
 
 function LogInCom() {
   const [signupData, setSignupData] = useState({});
@@ -69,7 +69,7 @@ function LogInCom() {
           />
         </div>
         <div className={classes["from-control"]}>
-          <button>Submit</button>
+          <Button placeholder="Login"></Button>
         </div>
       </form>
     </div>
