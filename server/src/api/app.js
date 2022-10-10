@@ -1,6 +1,12 @@
 const express = require("express");
 const app = express();
+const path = require("path");
+
+// sequelize association models
 const asso = require("./models")();
+
+//static pages
+const pathMap = new Set(["/", "/ticket", "/user", "/user/profile"]);
 
 // routes
 const UserRoutes = require("./router/User");
@@ -15,7 +21,7 @@ const User = require("./models/User");
 
 db.authenticate()
   .then(async () => {
-    await db.sync({ force: "true" });
+    // await db.sync({ force: "true" });
     console.log("Sync DB Successfully");
     console.log("connect to the database:");
     // await db.sync({ force: true });
@@ -28,8 +34,8 @@ db.authenticate()
 // public routes
 app.use(require("cors")());
 app.use(express.json());
-app.use(UserRoutes);
-app.use(TicketRoutes);
+app.use("/api", UserRoutes);
+app.use("/api", TicketRoutes);
 
 // log error
 app.use((err, req, res, next) => {
@@ -52,10 +58,27 @@ app.use((err, req, res, next) => {
   }
 });
 
-// not found error handling
-app.use((req, res, next) => {
-  res.status(404).send("Page not found");
-});
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../../../client/out")));
+  app.get("*", (req, res) => {
+    let params =
+      req.path.slice(req.path.length - 1) === "/" ? req.path : req.path + "/";
+    console.log(params);
+    if (pathMap.has(params.slice(0, params.length - 1)))
+      res.sendFile(
+        path.resolve(
+          path.join(
+            __dirname,
+            `../../../client/out/${params.slice(1, params.length - 1)}.html`
+          )
+        )
+      );
+    else
+      res.sendFile(
+        path.resolve(path.join(__dirname, "../../../client/out/404.html"))
+      );
+  });
+}
 
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {

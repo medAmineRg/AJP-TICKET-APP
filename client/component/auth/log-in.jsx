@@ -3,13 +3,14 @@ import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 import classes from "./sign-up.module.css";
 import { loadUser, login, reset } from "../../features/auth/authSlice";
-import Spinner from "../ui/spinner";
+import { toast } from "react-toastify";
+import Button from "../ui/button";
 
 function LogInCom() {
   const [signupData, setSignupData] = useState({});
   const router = useRouter();
   const dispatch = useDispatch();
-  const { user, isLoading, isError, isSuccess, message } = useSelector(
+  const { user, isError, isSuccess, message } = useSelector(
     state => state.auth
   );
 
@@ -21,11 +22,15 @@ function LogInCom() {
     }
 
     if (isError) {
-      console.log(message);
+      toast.error(message);
     }
 
     if (isSuccess || user) {
       router.replace("/");
+    }
+
+    if (isSuccess) {
+      toast.success(message);
     }
     return function cleanup() {
       dispatch(reset());
@@ -37,13 +42,8 @@ function LogInCom() {
   };
   const onSubmit = async e => {
     e.preventDefault();
-    try {
-      dispatch(login({ email, password }));
-    } catch (error) {
-      console.log(error);
-    }
+    dispatch(login({ email, password }));
   };
-  if (isLoading) return <Spinner />;
 
   return (
     <div className={classes.container}>
@@ -69,7 +69,7 @@ function LogInCom() {
           />
         </div>
         <div className={classes["from-control"]}>
-          <button>Submit</button>
+          <Button placeholder="Login"></Button>
         </div>
       </form>
     </div>

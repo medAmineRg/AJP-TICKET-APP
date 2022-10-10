@@ -10,7 +10,6 @@ const sequelize = new Sequelize(
     host: process.env.HOST,
 
     dialectOptions: {
-      // Observe the need for this nested `options` field for MSSQL
       options: {
         encrypt: false,
         trustServerCertificate: true,

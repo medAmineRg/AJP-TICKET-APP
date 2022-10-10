@@ -54,8 +54,9 @@ function UserTable() {
       dispatch(reset());
     };
   }, [dispatch, user, router]);
+
   useEffect(() => {
-    if (user) {
+    if (user && user.role === "Admin") {
       dispatch(getUsers({ page, limit: pageSize }))
         .unwrap()
         .then(res => {
@@ -97,6 +98,7 @@ function UserTable() {
 
   const onDelete = async () => {
     dispatch(deleteUser(selectedRow))
+      .unwrap()
       .then(res => {
         toast.success("User was deleted successfully");
         setSelectedRow(prev => null);

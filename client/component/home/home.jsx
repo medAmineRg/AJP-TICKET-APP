@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { loadUser } from "../../features/auth/authSlice";
 import Card from "../ui/card";
 import classes from "./home.module.css";
+import Spinner from "../ui/spinner";
 
 import { Bar } from "react-chartjs-2";
 import "chart.js/auto";
@@ -12,12 +13,15 @@ import { useState } from "react";
 
 export default function HomeCom() {
   const [statistics, setStatistics] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const dispatch = useDispatch();
   let { user } = useSelector(state => state.auth);
 
   const getStatistics = async () => {
-    const response = await axios.get("http://localhost:5000/ticket/statistics");
+    const response = await axios.get(
+      process.env.NEXT_PUBLIC_URL + "ticket/statistics"
+    );
     setStatistics(response.data);
   };
 
@@ -40,6 +44,7 @@ export default function HomeCom() {
   useEffect(() => {
     if (user) {
       getStatistics();
+      setIsLoading(false);
     }
   }, [user]);
   const month = [
@@ -62,6 +67,7 @@ export default function HomeCom() {
       obj[m.month] = m.tickets;
     });
   }
+  if (isLoading) <Spinner />;
   return (
     <div className={classes.container}>
       <h3>Dashboard</h3>

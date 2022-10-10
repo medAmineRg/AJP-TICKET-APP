@@ -71,7 +71,7 @@ const createTicket = async (req, res) => {
 const updateTicket = async (req, res) => {
   const ticket = await Ticket.findByPk(req.params.id);
   if (!ticket) customError("No Ticket was found", 404);
-  if (req.user.idUser !== ticket.creator || req.user.role !== "Admin")
+  if (req.user.idUser !== ticket.creator && req.user.role !== "Admin")
     customError("You do not have permission to do that", 403);
   let { title, status, description, urgent } = req.body;
   if (!title && !status && !description && !urgent)
@@ -134,10 +134,10 @@ const statistics = async (req, res) => {
   });
 
   const ticketsByMonths = await sequelize.query(
-    "SELECT DATENAME(month, createdAt) as month, count(createdAt) as tickets FROM [AJP_TICKET].[dbo].[ticket] where DATENAME(year, createdAt) = DATENAME(year, GETDATE()) group by DATENAME(month, createdAt)",
+    `SELECT DATENAME(month, createdAt) as month, count(createdAt) as tickets FROM ${process.env.MSSQL_DB}.[dbo].[ticket] where DATENAME(year, createdAt) = DATENAME(year, GETDATE()) group by DATENAME(month, createdAt)`,
     { type: Sequelize.QueryTypes }
   );
-  res.send({
+  return res.status(200).send({
     notStartedTickets: notStartedTickets[0].notStartedTickets,
     pendingTickets: pendingTickets[0].pendingTickets,
     totalTickets: totalTickets[0].totalTickets,
