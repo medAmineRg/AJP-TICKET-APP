@@ -1,3 +1,8 @@
+.hr {
+  height: 0.1rem;
+  margin: 0.2rem;
+}
+
 .form-control {
   width: 100%;
 }
@@ -10,7 +15,7 @@
 }
 .form-control textarea {
   resize: none;
-  height: 92px;
+  height: 70px;
   width: 100%;
 }
 

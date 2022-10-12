@@ -16,11 +16,11 @@ import Spinner from "../ui/spinner";
 
 function Profile() {
   const [userInfo, setUserInfo] = useState({});
-  const [isLoading, setIsLoading] = useState(true);
   const [open, setOpen] = useState(false);
-  const { user } = useSelector(state => state.auth);
+  const { user, isLoading } = useSelector(state => state.auth);
   const router = useRouter();
   const dispatch = useDispatch();
+
   useEffect(() => {
     if (
       typeof localStorage.getItem("user") == "object" ||
@@ -31,7 +31,6 @@ function Profile() {
 
     if (localStorage.getItem("user") && !user) {
       dispatch(loadUser(JSON.parse(localStorage.getItem("user"))));
-      setIsLoading(false);
     }
   }, [dispatch, user, router]);
 
@@ -56,7 +55,7 @@ function Profile() {
     setUserInfo(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  if (isLoading) <Spinner />;
+  if (isLoading) return <Spinner />;
   return (
     <>
       <div className={classes.container}>

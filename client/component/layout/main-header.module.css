@@ -22,11 +22,15 @@
 
 .div-link li a {
   text-decoration: none;
-  color: white;
   transition: 0.2s ease-in;
 }
 
 .div-link li a:hover {
   color: var(--bg-secondary);
   font-weight: 700;
+}
+
+.active a {
+  color: var(--bg-secondary);
+  font-weight: bold;
 }

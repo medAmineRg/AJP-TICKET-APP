@@ -20,6 +20,8 @@ import Spinner from "../ui/spinner";
 import DataTable from "../ui/table";
 import UserForm from "./user-form";
 
+let firstRender = true;
+
 function UserTable() {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -49,6 +51,7 @@ function UserTable() {
     if (localStorage.getItem("user") && !user) {
       dispatch(loadUser(JSON.parse(localStorage.getItem("user"))));
     }
+    firstRender = false;
 
     return function cleanup() {
       dispatch(reset());
@@ -113,18 +116,20 @@ function UserTable() {
   const onUserForm = e => {
     setUserInfo(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
-  if (isLoading) return <Spinner />;
+  if (isLoading || firstRender) return <Spinner />;
 
   return (
     <>
       <div className={classes.right}>
         <h3>Users</h3>
 
-        <Button
-          color="white"
-          onClick={() => setOpen(true)}
-          placeholder={"Create User"}
-        ></Button>
+        <div className={classes.end}>
+          <Button
+            color="white"
+            onClick={() => setOpen(true)}
+            placeholder={"Create User"}
+          ></Button>
+        </div>
       </div>
       <DataTable
         rows={users}

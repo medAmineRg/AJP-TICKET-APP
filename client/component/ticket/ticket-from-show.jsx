@@ -2,22 +2,26 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import classes from "./ticket-form.module.css";
 
-function TicketFromShow({ id, ticketInfo, setIsOwner, isOwner }) {
+function TicketFromShow({ id, ticketInfo, setIsOwner, isOwner, info }) {
   const { ticket } = useSelector(state => state.ticket);
-  const { user, isLoading } = useSelector(state => state.auth);
+  const { user } = useSelector(state => state.auth);
 
-  const { User, title, description, urgent, status, creator } = ticket.find(
-    ticket => ticket.id == id
-  );
-  console.log(urgent);
+  const {
+    User,
+    title,
+    description,
+    urgent,
+    status,
+    creator,
+    category,
+    solution,
+  } = ticket.find(ticket => ticket.id == id);
   useEffect(() => {
     setIsOwner(user.idUser === creator);
     if (user.role === "Admin") {
       setIsOwner(true);
     }
   }, []);
-  if (isLoading) return <Spinner />;
-
   return (
     <>
       <div className={classes["form-control"]}>
@@ -69,15 +73,32 @@ function TicketFromShow({ id, ticketInfo, setIsOwner, isOwner }) {
           <option value="1">Yes</option>
         </select>
       </div>
-
+      <div className={classes["form-control"]}>
+        <label>Category</label>
+        <select
+          name="category"
+          className={classes.input}
+          onChange={ticketInfo}
+          disabled={!isOwner}
+          defaultValue={info.category || category}
+        >
+          <option value="Laptop / PC requirement issue">
+            Laptop / PC requirement issue
+          </option>
+          <option value="Laptop / PC software issue">
+            Laptop / PC software issue
+          </option>
+          <option value="Other...">Other...</option>
+        </select>
+      </div>
       <div className={classes["form-control"]}>
         <label>status</label>
         <select
           name="status"
           className={classes.input}
           onChange={ticketInfo}
-          defaultValue={status}
-          disabled={!isOwner}
+          defaultValue={info.status || status}
+          disabled={user.role !== "Admin"}
         >
           <option value="Not Started">Not Started</option>
           <option value="In Progress">In Progress</option>
@@ -85,6 +106,26 @@ function TicketFromShow({ id, ticketInfo, setIsOwner, isOwner }) {
           <option value="Postpone">Postpone</option>
         </select>
       </div>
+      {(status === "Completed" || info.status === "Completed") && (
+        <div className={classes["form-control"]}>
+          <label>Solution</label>
+          <textarea
+            onChange={ticketInfo}
+            className={classes.input}
+            name="solution"
+            maxLength={255}
+            rows={30}
+            defaultValue={
+              solution ===
+              (!info.solution &&
+                "The Admin will try to find a solution for the issue as soon as possible.")
+                ? ""
+                : info.solution || solution
+            }
+            disabled={user.role !== "Admin"}
+          />
+        </div>
+      )}
     </>
   );
 }

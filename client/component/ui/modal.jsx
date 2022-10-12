@@ -2,7 +2,16 @@ import React from "react";
 import Button from "./button";
 import classes from "./modal.module.css";
 
-const Modal = ({ open, children, onClose, submit, setRemove, z, isOwner }) => {
+const Modal = ({
+  open,
+  children,
+  onClose,
+  submit,
+  setRemove,
+  z,
+  isOwner,
+  btnTxt,
+}) => {
   if (!open) return null;
   return (
     <>
@@ -18,9 +27,12 @@ const Modal = ({ open, children, onClose, submit, setRemove, z, isOwner }) => {
             ></Button>
           )}
           <div className={classes["flex-end"]}>
-            <Button onClick={onClose} placeholder={"Exit"}></Button>
+            <Button bg="gray" onClick={onClose} placeholder={"Exit"}></Button>
             {isOwner && (
-              <Button onClick={submit} placeholder={"submit"}></Button>
+              <Button
+                onClick={submit}
+                placeholder={btnTxt ? btnTxt : "submit"}
+              ></Button>
             )}
           </div>
         </div>

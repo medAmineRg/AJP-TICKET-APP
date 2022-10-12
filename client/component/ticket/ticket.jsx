@@ -10,6 +10,7 @@ import {
   setPageSize,
   updateTicket,
   deleteTicket,
+  filterTicket,
 } from "../../features/ticket/ticketSlice";
 import { useEffect, useState } from "react";
 import { loadUser } from "../../features/auth/authSlice";
@@ -20,14 +21,19 @@ import TicketFromShow from "./ticket-from-show";
 import { toast } from "react-toastify";
 import { ticketColumns } from "../../utils/utils";
 import Spinner from "../ui/spinner";
+import Filter from "../ui/filter";
+import { DataGrid } from "@mui/x-data-grid";
+
+let firstRender = true;
 
 function Ticket() {
-  let { ticket, total, page, pageSize, isLoading } = useSelector(
+  let { ticket, total, page, pageSize, isLoading, filtering } = useSelector(
     state => state.ticket
   );
   const { user } = useSelector(state => state.auth);
 
   const [open, setOpen] = useState(false);
+  const [showFilter, setShowFilter] = useState(false);
   const [isOwner, setIsOwner] = useState();
   const [remove, setRemove] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
@@ -37,10 +43,6 @@ function Ticket() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (localStorage.getItem("user") && !user) {
-      dispatch(loadUser(JSON.parse(localStorage.getItem("user"))));
-    }
-
     if (
       typeof localStorage.getItem("user") == "object" ||
       !localStorage.getItem("user")
@@ -48,6 +50,10 @@ function Ticket() {
       router.replace("/login");
     }
 
+    if (localStorage.getItem("user") && !user) {
+      dispatch(loadUser(JSON.parse(localStorage.getItem("user"))));
+    }
+    firstRender = false;
     return function cleanup() {
       dispatch(reset());
     };
@@ -64,6 +70,9 @@ function Ticket() {
           toast.error(e.message);
         });
     }
+    return function cleanup() {
+      dispatch(reset());
+    };
   }, [user, page, pageSize]);
 
   const onSubmit = async () => {
@@ -110,30 +119,49 @@ function Ticket() {
   const onTicketForm = e => {
     setTicketInfo(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
-  if (isLoading) return <Spinner />;
 
+  if (firstRender || isLoading) return <Spinner />;
   return (
     <>
       <div className={classes.right}>
         <h3>Tickets</h3>
 
-        <Button
-          color="white"
-          onClick={() => setOpen(true)}
-          placeholder={"Create Ticket"}
-        ></Button>
+        <div className={classes.end}>
+          <Button
+            classN={"btn"}
+            color="white"
+            onClick={() => setOpen(true)}
+            placeholder={"Create Ticket"}
+          ></Button>
+          <Button
+            classN={"btn"}
+            color="white"
+            onClick={() => setShowFilter(true)}
+            placeholder={"Filter"}
+          ></Button>
+        </div>
       </div>
-      <DataTable
-        rows={ticket}
-        isLoading={isLoading}
-        rowCountState={total}
-        page={page}
-        pageSize={pageSize}
-        setPage={setPage}
-        setPageSize={setPageSize}
-        setSelectedRow={setSelectedRow}
-        columns={ticketColumns}
-      />
+      {filtering ? (
+        <DataGrid
+          autoHeight
+          rowsPerPageOptions={[10]}
+          columns={ticketColumns}
+          pageSize={10}
+          rows={ticket}
+        />
+      ) : (
+        <DataTable
+          rows={ticket}
+          isLoading={isLoading}
+          rowCountState={total}
+          page={page}
+          pageSize={pageSize}
+          setPage={setPage}
+          setPageSize={setPageSize}
+          setSelectedRow={setSelectedRow}
+          columns={ticketColumns}
+        />
+      )}
       <Modal
         open={remove}
         onClose={() => setRemove(false)}
@@ -153,6 +181,7 @@ function Ticket() {
         <TicketFromShow
           id={selectedRow}
           ticketInfo={onTicketForm}
+          info={ticketInfo}
           setIsOwner={setIsOwner}
           isOwner={isOwner}
         />
@@ -163,7 +192,43 @@ function Ticket() {
         onClose={() => setOpen(false)}
         isOwner={true}
       >
-        <TicketForm ticketInfo={onTicketForm}></TicketForm>
+        <TicketForm ticketInfo={onTicketForm} info={ticketInfo}></TicketForm>
+      </Modal>
+
+      <Modal
+        submit={() => {
+          const { creator, status, category, startDate, endDate, urgent } =
+            ticketInfo;
+          if (
+            !creator &&
+            !status &&
+            !category &&
+            !startDate &&
+            !endDate &&
+            !urgent
+          ) {
+            return toast.warning("Please you must provide a field at least!");
+          }
+          dispatch(filterTicket(ticketInfo))
+            .unwrap()
+            .then(res => {
+              toast.success(res.message);
+              setTicketInfo({});
+              setShowFilter(false);
+            })
+            .catch(e => {
+              toast.error(e);
+            });
+        }}
+        open={showFilter}
+        onClose={() => setShowFilter(false)}
+        isOwner={true}
+        btnTxt="Filter"
+      >
+        <Filter
+          ticketInfo={onTicketForm}
+          startDate={ticketInfo.startDate}
+        ></Filter>
       </Modal>
     </>
   );

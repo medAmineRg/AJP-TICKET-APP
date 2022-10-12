@@ -1,5 +1,5 @@
 import classes from "./ticket-form.module.css";
-function TicketForm({ ticketInfo }) {
+function TicketForm({ ticketInfo, info }) {
   return (
     <>
       <div className={classes["form-control"]}>
@@ -8,8 +8,9 @@ function TicketForm({ ticketInfo }) {
           className={classes.input}
           type="text"
           onChange={ticketInfo}
-          placeholder="titre"
+          placeholder="title"
           name="title"
+          value={info?.title ? info?.title : ""}
         />
       </div>
       <div className={classes["form-control"]}>
@@ -20,7 +21,26 @@ function TicketForm({ ticketInfo }) {
           name="description"
           maxLength={255}
           rows={30}
+          value={info?.description ? info?.description : ""}
         />
+      </div>
+      <div className={classes["form-control"]}>
+        <label>Category</label>
+        <select
+          name="category"
+          className={classes.input}
+          onChange={ticketInfo}
+          defaultValue={info.category || "select"}
+        >
+          <option value="select">Select a category</option>
+          <option value="Laptop / PC requirement issue">
+            Laptop / PC requirement issue
+          </option>
+          <option value="Laptop / PC software issue">
+            Laptop / PC software issue
+          </option>
+          <option value="Other...">Other...</option>
+        </select>
       </div>
       <div className={classes["form-control"]}>
         <label>Urgent</label>

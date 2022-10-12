@@ -5,7 +5,8 @@
   cursor: pointer;
 }
 
-.btn {
+.btn,
+.reverse {
   border-radius: 4px;
   transition: transform 0.2s;
 }
@@ -15,4 +16,18 @@
   transform: scale(1.01) !important;
   background-color: var(--bg-secondary) !important;
   border-color: var(--bg-secondary) !important;
+}
+
+.reverse {
+  padding: 0.8rem 1.2rem;
+  border: 0;
+  background-color: var(--bg-secondary);
+  cursor: pointer;
+}
+
+.reverse:hover {
+  cursor: pointer !important;
+  transform: scale(1.01) !important;
+  background-color: var(--bg-primary) !important;
+  border-color: var(--bg-primary) !important;
 }

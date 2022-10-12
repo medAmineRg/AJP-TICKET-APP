@@ -33,12 +33,40 @@ const Ticket = sequelize.define(
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
+    category: {
+      type: DataTypes.STRING(30),
+      allowNull: false,
+      validate: {
+        isIn: {
+          args: [
+            [
+              "Laptop / PC requirement issue",
+              "Laptop / PC software issue",
+              "Other...",
+            ],
+          ],
+          msg: "I catch you :)",
+        },
+      },
+    },
     status: {
       type: DataTypes.STRING(20),
       validate: {
         isIn: [["Not Started", "In Progress", "Completed", "Postpone"]],
       },
       defaultValue: "Not Started",
+    },
+
+    solution: {
+      type: DataTypes.STRING(250),
+      validate: {
+        len: {
+          args: [15, 250],
+          msg: "solution length must be between 15 and 250",
+        },
+      },
+      defaultValue:
+        "The Admin will try to find a solution for the issue as soon as possible.",
     },
   },
   {

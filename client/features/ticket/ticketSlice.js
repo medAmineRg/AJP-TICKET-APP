@@ -13,6 +13,7 @@ const initialState = {
   total: 0,
   page: 0,
   pageSize: 10,
+  filtering: false,
 };
 
 export const getTicket = createAsyncThunk(
@@ -87,6 +88,24 @@ export const deleteTicket = createAsyncThunk(
   }
 );
 
+export const filterTicket = createAsyncThunk(
+  "ticket/filter",
+  async (filterCriteria, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await ticketService.filterTicket(filterCriteria, token);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const ticketSlice = createSlice({
   name: "ticket",
   initialState,
@@ -96,6 +115,7 @@ export const ticketSlice = createSlice({
       state.isSuccess = false;
       state.isError = false;
       state.message = "";
+      state.filtering = false;
     },
     setPage: (state, action) => {
       state.page = action.payload;
@@ -155,6 +175,21 @@ export const ticketSlice = createSlice({
         state.isSuccess = true;
       })
       .addCase(deleteTicket.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload.message;
+      })
+      .addCase(filterTicket.pending, state => {
+        state.isLoading = true;
+      })
+      .addCase(filterTicket.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.ticket = action.payload.ticket;
+        state.filtering = true;
+        state.message = "Filtering result";
+      })
+      .addCase(filterTicket.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload.message;

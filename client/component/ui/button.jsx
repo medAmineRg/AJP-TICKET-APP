@@ -1,10 +1,10 @@
 import classes from "./button.module.css";
-function Button({ placeholder, onClick, color, bg }) {
+function Button({ placeholder, onClick, color, bg, classN }) {
   return (
     <button
       style={{ color, backgroundColor: bg }}
       onClick={onClick}
-      className={classes.btn}
+      className={classN ? classes[classN] : classes.btn}
     >
       {placeholder}
     </button>

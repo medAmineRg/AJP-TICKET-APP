@@ -1,5 +1,5 @@
 import axios from "axios";
-const URL = process.env.NEXT_PUBLIC_URL;
+let URL = process.env.NEXT_PUBLIC_URL;
 
 const getTicket = async (pagination, token) => {
   const config = {
@@ -48,11 +48,48 @@ const deleteTicket = async (id, token) => {
   return response.data;
 };
 
+const filterTicket = async (filterCriteria, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const { creator, status, category, startDate, endDate, urgent } =
+    filterCriteria;
+  let filterURL = URL + "ticket/filter?";
+
+  if (urgent) {
+    filterURL = filterURL + `&urgent=${urgent}`;
+  }
+  if (creator) {
+    filterURL = filterURL + `&creator=${creator}`;
+  }
+  if (status) {
+    filterURL = filterURL + `&status=${status}`;
+  }
+
+  if (category) {
+    filterURL = filterURL + `&category=${category}`;
+  }
+
+  if (startDate) {
+    filterURL = filterURL + `&startDate=${startDate}`;
+  }
+
+  if (endDate) {
+    filterURL = filterURL + `&endDate=${endDate}`;
+  }
+
+  const response = await axios.get(filterURL, config);
+  return response.data;
+};
+
 const ticketService = {
   getTicket,
   createTicket,
   updateTicket,
   deleteTicket,
+  filterTicket,
 };
 
 export default ticketService;

@@ -10,10 +10,12 @@ import { Bar } from "react-chartjs-2";
 import "chart.js/auto";
 import axios from "axios";
 import { useState } from "react";
+import { month } from "../../utils/utils";
 
+let obj = {};
+let loading = true;
 export default function HomeCom() {
   const [statistics, setStatistics] = useState({});
-  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const dispatch = useDispatch();
   let { user } = useSelector(state => state.auth);
@@ -25,49 +27,27 @@ export default function HomeCom() {
     setStatistics(response.data);
   };
 
-  useEffect(
-    function () {
-      if (
-        typeof localStorage.getItem("user") == "object" ||
-        !localStorage.getItem("user")
-      ) {
-        router.push("/login");
-      }
-
-      if (typeof localStorage.getItem("user") == "string" && !user) {
-        dispatch(loadUser(JSON.parse(localStorage.getItem("user"))));
-      }
-    },
-    [dispatch, user]
-  );
-
   useEffect(() => {
     if (user) {
       getStatistics();
-      setIsLoading(false);
     }
-  }, [user]);
-  const month = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-  let obj = {};
+    if (!localStorage.getItem("user")) {
+      router.push("/login");
+    }
+
+    if (typeof localStorage.getItem("user") == "string" && !user) {
+      dispatch(loadUser(JSON.parse(localStorage.getItem("user"))));
+    }
+    loading = false;
+  }, [dispatch, user, router]);
+
+  if (loading) return <Spinner />;
+
   if (statistics.ticketsByMonths && statistics.ticketsByMonths.length) {
     statistics.ticketsByMonths.map(m => {
       obj[m.month] = m.tickets;
     });
   }
-  if (isLoading) <Spinner />;
   return (
     <div className={classes.container}>
       <h3>Dashboard</h3>

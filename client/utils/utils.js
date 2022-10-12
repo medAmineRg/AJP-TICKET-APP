@@ -1,12 +1,12 @@
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 export const ticketColumns = [
-  { field: "id", headerName: "ID", width: 100 },
+  { field: "id", headerName: "ID", width: 20 },
   { field: "title", headerName: "Title", width: 130 },
   { field: "description", headerName: "Description", width: 300 },
   {
     field: "User",
     headerName: "Creator",
-    width: 130,
+    width: 80,
   },
   {
     field: "urgent",
@@ -20,10 +20,20 @@ export const ticketColumns = [
     width: 120,
   },
   {
+    field: "category",
+    headerName: "Category",
+    width: 120,
+  },
+  {
+    field: "solution",
+    headerName: "Solution",
+    width: 180,
+  },
+  {
     field: "createdAt",
     headerName: "Created At",
     type: "date",
-    width: 180,
+    width: 100,
     valueFormatter: params => formatDistanceToNow(new Date(params.value)),
   },
 
@@ -31,7 +41,7 @@ export const ticketColumns = [
     field: "updatedAt",
     headerName: "Updated At",
     type: "date",
-    width: 180,
+    width: 100,
     valueFormatter: params => formatDistanceToNow(new Date(params.value)),
   },
 ];
@@ -61,4 +71,19 @@ export const userColumns = [
     width: 180,
     valueFormatter: params => formatDistanceToNow(new Date(params.value)),
   },
+];
+
+export const month = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
 ];

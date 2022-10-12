@@ -8,6 +8,7 @@
   padding: 40px 40px 20px 40px;
   z-index: 100;
   border-radius: 5px;
+  overflow: scroll;
 }
 
 .overlay {
@@ -39,17 +40,19 @@
 }
 
 .footer-btn button:nth-child(2) {
-  background-color: #0a74a8;
+  /* background-color: #0a74a8; */
   margin: 0 0 0 0.2rem;
 }
 
-.footer-btn button:hover {
-  cursor: pointer;
-  transform: scale(1.1);
-  background-color: var(--bg-secondary);
+.modal::-webkit-scrollbar-thumb {
+  background: var(--bg-primary);
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 900px) {
+  .modal {
+    width: 90%;
+    /* height: 90%; */
+  }
   .footer-btn {
     display: flex;
     flex-direction: column;

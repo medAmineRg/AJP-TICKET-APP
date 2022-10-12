@@ -7,7 +7,7 @@ const sequelize = new Sequelize(
   process.env.MSSQL_PS,
   {
     dialect: "mssql",
-    host: process.env.HOST,
+    host: process.env.HOST || "localhost",
 
     dialectOptions: {
       options: {
