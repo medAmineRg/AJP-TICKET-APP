@@ -1,6 +1,5 @@
 import classes from "../ticket/ticket-form.module.css";
 function Filter({ ticketInfo, startDate }) {
-  console.log(startDate);
   return (
     <>
       <h1>Filter</h1>

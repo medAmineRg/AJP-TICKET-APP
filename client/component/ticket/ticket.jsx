@@ -148,6 +148,9 @@ function Ticket() {
           columns={ticketColumns}
           pageSize={10}
           rows={ticket}
+          onSelectionModelChange={item => {
+            setSelectedRow(item[0]);
+          }}
         />
       ) : (
         <DataTable

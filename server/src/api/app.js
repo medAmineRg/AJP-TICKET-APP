@@ -6,7 +6,14 @@ const path = require("path");
 const asso = require("./models")();
 
 //static pages
-const pathMap = new Set(["/", "/ticket", "/user", "/user/profile"]);
+const pathMap = new Set([
+  "/",
+  "/ticket",
+  "/user",
+  "/user/profile",
+  "/login",
+  "/signup",
+]);
 
 // routes
 const UserRoutes = require("./router/User");
@@ -21,10 +28,8 @@ const User = require("./models/User");
 
 db.authenticate()
   .then(async () => {
-    // await db.sync({ alter: "true" });
     console.log("Sync DB Successfully");
     console.log("connect to the database:");
-    // await db.sync({ force: true });
   })
   .catch(error => {
     console.log(error);
