@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../features/auth/authSlice";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+
 function SideBar() {
   const router = useRouter();
   const dispatch = useDispatch();

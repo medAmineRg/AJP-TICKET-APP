@@ -2,6 +2,7 @@ import classes from "./main-header.module.css";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
+
 function MainHeader() {
   const router = useRouter();
   const path = router.asPath;

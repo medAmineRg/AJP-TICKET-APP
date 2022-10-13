@@ -7,14 +7,6 @@ const customError = (msg, code) => {
   throw error;
 };
 
-const successResponse = (api, code, message, result = {}, token = null) => {
-  return { api, code, message, result, token };
-};
-
-const sendResponse = (message, code = null, result = null) => {
-  return { message, code, result };
-};
-
 const hashPassword = async password => {
   if (password.length < 8) {
     throw customError("Password should contain at least 8 character!", 400);
@@ -47,6 +39,6 @@ module.exports = {
   comparePassword,
   generateToken,
   verifyToken,
-  successResponse,
-  sendResponse,
+  // successResponse,
+  // sendResponse,
 };

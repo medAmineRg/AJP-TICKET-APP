@@ -105,6 +105,7 @@ function Ticket() {
 
   const onDelete = async () => {
     dispatch(deleteTicket(selectedRow))
+      .unwrap()
       .then(res => {
         toast.success("Ticket was deleted successfully");
         setRemove(false);
@@ -166,6 +167,7 @@ function Ticket() {
         />
       )}
       <Modal
+        height={"18%"}
         open={remove}
         onClose={() => setRemove(false)}
         z={200}
@@ -190,6 +192,7 @@ function Ticket() {
         />
       </Modal>
       <Modal
+        height={"80%"}
         submit={onSubmit}
         open={open}
         onClose={() => setOpen(false)}
@@ -216,12 +219,12 @@ function Ticket() {
             .unwrap()
             .then(res => {
               toast.success(res.message);
-              setTicketInfo({});
               setShowFilter(false);
             })
             .catch(e => {
               toast.error(e);
             });
+          setTicketInfo({});
         }}
         open={showFilter}
         onClose={() => setShowFilter(false)}

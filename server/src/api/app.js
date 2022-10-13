@@ -28,6 +28,7 @@ const User = require("./models/User");
 
 db.authenticate()
   .then(async () => {
+    // await db.sync({ force: true });
     console.log("Sync DB Successfully");
     console.log("connect to the database:");
   })
@@ -68,7 +69,6 @@ if (process.env.NODE_ENV === "production") {
   app.get("*", (req, res) => {
     let params =
       req.path.slice(req.path.length - 1) === "/" ? req.path : req.path + "/";
-    console.log(params);
     if (pathMap.has(params.slice(0, params.length - 1)))
       res.sendFile(
         path.resolve(

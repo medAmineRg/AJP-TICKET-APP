@@ -7,8 +7,6 @@
 }
 
 .stc {
-  /* height: 100%; */
-  /* padding: 0.2rem 0.4rem; */
   display: flex !important;
   flex-direction: column;
   align-items: flex-start;

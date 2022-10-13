@@ -15,7 +15,13 @@ const getUsers = async (req, res) => {
   if (!page) {
     page = 0;
   }
-  const total = await User.count();
+  const total = await User.count({
+    where: {
+      role: {
+        [Op.ne]: "Admin",
+      },
+    },
+  });
   const user = await User.findAll({
     offset: parseInt(limit * page),
     limit: parseInt(limit),
@@ -33,14 +39,16 @@ const getUsers = async (req, res) => {
       },
     },
   });
-  return res
-    .status(200)
-    .send({ message: "Get all users successfully", user, total });
+  return res.status(200).send({
+    message: !total ? "No users in database" : "Get all users successfully",
+    user,
+    total,
+  });
 };
 
 const signup = async (req, res) => {
   let { fullName, email, password, role } = req.body;
-  if (!role || role !== "User" || role !== "Admin") role = "User";
+  if (!role || (role !== "User" && role !== "Admin")) role = "User";
 
   if (!fullName || !email || !password)
     customError("You must provide 'Fullname, email and password' ", 400);
@@ -61,6 +69,8 @@ const signup = async (req, res) => {
 
 const login = async (req, res) => {
   let { email, password } = req.body;
+
+  if (!email || !password) customError("Email and Password are required!");
   const user = await User.findOne({
     where: { email },
     attributes: ["idUser", "role", "fullName", "email", "password"],
@@ -78,7 +88,10 @@ const login = async (req, res) => {
 const updateUser = async (req, res) => {
   let { fullName, password, email, role } = req.body;
   if (!fullName && !password && !email && !role)
-    customError("Nothing was changed, you haven not provide any data.", 400);
+    customError(
+      "Nothing was changed, you have not provide us with any new data.",
+      400
+    );
   if (password) {
     password = await hashPassword(password);
   }
@@ -93,6 +106,8 @@ const updateUser = async (req, res) => {
 };
 
 const deleteUser = async (req, res) => {
+  if (req.user.role !== "Admin")
+    customError("You do not have permission to do that", 403);
   await User.destroy({ where: { idUser: req.params.id } });
   res.status(204).send();
 };

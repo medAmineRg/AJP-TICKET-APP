@@ -9,7 +9,6 @@ const signup = async userData => {
 
 const login = async userData => {
   const response = await axios.post(URL + "login", userData);
-  console.log(response.data);
   localStorage.setItem("user", JSON.stringify(response.data.user));
   return response.data;
 };

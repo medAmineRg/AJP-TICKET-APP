@@ -9,6 +9,8 @@ function UserEdit({ userInfo }) {
 
   return (
     <>
+      <h1>User</h1>
+      <hr className={classes.hr}></hr>
       <div className={classes["form-control"]}>
         <label>fullName</label>
         <input

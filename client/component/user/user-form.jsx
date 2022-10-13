@@ -1,14 +1,16 @@
 import { useSelector } from "react-redux";
 import classes from "../ticket/ticket-form.module.css";
 import Spinner from "../ui/spinner";
+
 function UserForm({ userInfo, idUser, remove }) {
   if (idUser && !remove) {
     const { users, isLoading } = useSelector(state => state.users);
     let { fullName, email, role } = users.find(user => user.id == idUser);
     if (isLoading) return <Spinner />;
-
     return (
       <>
+        <h1>User</h1>
+        <hr className={classes.hr}></hr>
         <div className={classes["form-control"]}>
           <label>fullName</label>
           <input
@@ -58,6 +60,8 @@ function UserForm({ userInfo, idUser, remove }) {
   }
   return (
     <>
+      <h1>Create a User</h1>
+      <hr className={classes.hr}></hr>
       <div className={classes["form-control"]}>
         <label>Fullname</label>
         <input
@@ -90,15 +94,7 @@ function UserForm({ userInfo, idUser, remove }) {
       </div>
       <div className={classes["form-control"]}>
         <label>Role</label>
-        <select
-          name="role"
-          className={classes.input}
-          onChange={userInfo}
-          defaultValue={"Choose"}
-        >
-          <option value="Choose" disabled>
-            Choose a Role
-          </option>
+        <select name="role" className={classes.input} onChange={userInfo}>
           <option value="User">User</option>
           <option value="Admin">Admin</option>
         </select>

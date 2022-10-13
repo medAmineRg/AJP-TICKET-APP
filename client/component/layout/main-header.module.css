@@ -1,5 +1,5 @@
 .header {
-  background-color: #016d42;
+  background-color: var(--bg-primary);
   color: white;
   grid-area: nav;
 }

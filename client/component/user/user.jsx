@@ -144,6 +144,7 @@ function UserTable() {
       />
 
       <Modal
+        height={"65%"}
         open={selectedRow}
         onClose={() => setSelectedRow(null)}
         submit={onUpdate}
@@ -153,6 +154,7 @@ function UserTable() {
         <UserForm idUser={selectedRow} userInfo={onUserForm} remove={remove} />
       </Modal>
       <Modal
+        height={"65%"}
         submit={onSubmit}
         open={open}
         onClose={() => setOpen(false)}
@@ -162,6 +164,7 @@ function UserTable() {
       </Modal>
 
       <Modal
+        height={"18%"}
         open={remove}
         onClose={() => setRemove(false)}
         z={200}

@@ -58,15 +58,14 @@ const Ticket = sequelize.define(
     },
 
     solution: {
-      type: DataTypes.STRING(250),
+      type: DataTypes.STRING(500),
       validate: {
         len: {
-          args: [15, 250],
+          args: [15, 500],
           msg: "solution length must be between 15 and 250",
         },
       },
-      defaultValue:
-        "The Admin will try to find a solution for the issue as soon as possible.",
+      defaultValue: "Admin will try to find a solution.",
     },
   },
   {

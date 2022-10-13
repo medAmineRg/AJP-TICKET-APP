@@ -11,12 +11,13 @@ const Modal = ({
   z,
   isOwner,
   btnTxt,
+  height,
 }) => {
   if (!open) return null;
   return (
     <>
       <div style={{ zIndex: z }} className={classes.overlay}></div>
-      <div style={{ zIndex: z }} className={classes.modal}>
+      <div style={{ zIndex: z, height }} className={classes.modal}>
         {children}
         <div className={classes["footer-btn"]}>
           {setRemove && isOwner && (

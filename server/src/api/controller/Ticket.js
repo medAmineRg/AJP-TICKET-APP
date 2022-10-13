@@ -4,6 +4,7 @@ const User = require("../models/User");
 const Sequelize = require("sequelize");
 const sequelize = require("../../config/db");
 const { Op } = require("sequelize");
+
 const getTickets = async (req, res) => {
   let { limit, page } = req.query;
   if (!limit) {
@@ -36,7 +37,9 @@ const getTickets = async (req, res) => {
     include: { model: User, attributes: [] },
   });
   return res.status(200).json({
-    message: "Get all tickets successfully",
+    message: !total
+      ? "No Ticket in database, please make a new one! "
+      : "Tickets loaded successfully",
     ticket,
     total,
   });
@@ -81,9 +84,6 @@ const updateTicket = async (req, res) => {
   if (!title && !status && !description && !urgent && !solution && !category)
     customError("You did not change anything!", 400);
 
-  if ((status === "Completed" && !solution) || (!status && solution))
-    customError("You have to provide both the solution and the status", 400);
-
   if (title) ticket.title = title;
   if (status) ticket.status = status;
   if (description) ticket.description = description;
@@ -97,10 +97,17 @@ const updateTicket = async (req, res) => {
 
 const deleteTicket = async (req, res) => {
   const ticket = await Ticket.findByPk(req.params.id);
+  if (!ticket) customError("No Ticket was found", 404);
+
   if (req.user.idUser !== ticket.creator && req.user.role !== "Admin")
     customError("You do not have permission to do that", 403);
 
-  if (!ticket) customError("No Ticket was found", 404);
+  if (ticket.status === "Completed" && req.user.role === "User")
+    customError(
+      "You can't delete a ticket when it's status equal <Completed>",
+      403
+    );
+
   await ticket.destroy();
   return res.status(204).send();
 };
@@ -223,6 +230,10 @@ const filter = async (req, res) => {
     },
     raw: true,
   });
+
+  if (!filterTicket.length) {
+    customError("No result was found", 404);
+  }
   res.status(200).send({
     ticket: filterTicket,
     message: "the filtering you made was applied successfully",

@@ -1,6 +1,7 @@
 import { DataGrid } from "@mui/x-data-grid";
 import { useDispatch } from "react-redux";
 import classes from "./table.module.css";
+
 export default function DataTable({
   rows,
   isLoading,

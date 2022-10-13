@@ -82,6 +82,7 @@ function Profile() {
         </div>
       </div>
       <Modal
+        height={"65%"}
         submit={onUpdate}
         open={open}
         onClose={() => setOpen(false)}

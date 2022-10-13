@@ -1,3 +1,13 @@
+.field {
+  border: 0;
+  margin-inline-start: 0;
+  margin-inline-end: 0;
+  padding-block-start: 0;
+  padding-inline-start: 0;
+  padding-inline-end: 0;
+  padding-block-end: 0;
+  min-inline-size: 0;
+}
 .hr {
   height: 0.1rem;
   margin: 0.2rem;
@@ -14,9 +24,10 @@
   color: rgb(27, 27, 27);
 }
 .form-control textarea {
-  resize: none;
-  height: 70px;
+  resize: vertical;
+  height: 140px;
   width: 100%;
+  overflow-y: scroll;
 }
 
 .input {

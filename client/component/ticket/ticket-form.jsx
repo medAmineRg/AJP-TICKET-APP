@@ -1,7 +1,10 @@
 import classes from "./ticket-form.module.css";
+
 function TicketForm({ ticketInfo, info }) {
   return (
     <>
+      <h1>Create a Ticket</h1>
+      <hr className={classes.hr}></hr>
       <div className={classes["form-control"]}>
         <label>titre</label>
         <input
@@ -19,8 +22,7 @@ function TicketForm({ ticketInfo, info }) {
           onChange={ticketInfo}
           className={classes.input}
           name="description"
-          maxLength={255}
-          rows={30}
+          maxLength={250}
           value={info?.description ? info?.description : ""}
         />
       </div>
