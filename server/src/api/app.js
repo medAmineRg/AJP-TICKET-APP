@@ -28,7 +28,6 @@ const User = require("./models/User");
 
 db.authenticate()
   .then(async () => {
-    // await db.sync({ force: true });
     console.log("Sync DB Successfully");
     console.log("connect to the database:");
   })

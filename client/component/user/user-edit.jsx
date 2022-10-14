@@ -12,7 +12,7 @@ function UserEdit({ userInfo }) {
       <h1>User</h1>
       <hr className={classes.hr}></hr>
       <div className={classes["form-control"]}>
-        <label>fullName</label>
+        <label>Fullname</label>
         <input
           className={classes.input}
           type="text"
