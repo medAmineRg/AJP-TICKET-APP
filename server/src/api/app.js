@@ -28,6 +28,12 @@ const User = require("./models/User");
 
 db.authenticate()
   .then(async () => {
+    const [roleAdmin, createdAdminRole] = await Role.findOrCreate({
+      where: { role: "Admin" },
+    });
+    const [roleUser, createdUserRole] = await Role.findOrCreate({
+      where: { role: "User" },
+    });
     console.log("Sync DB Successfully");
     console.log("connect to the database:");
   })
