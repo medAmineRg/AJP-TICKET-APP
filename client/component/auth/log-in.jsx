@@ -5,6 +5,7 @@ import classes from "./sign-up.module.css";
 import { loadUser, login, reset } from "../../features/auth/authSlice";
 import { toast } from "react-toastify";
 import Button from "../ui/button";
+import { FiLogIn } from "react-icons/fi";
 
 function LogInCom() {
   const [signupData, setSignupData] = useState({});
@@ -46,33 +47,39 @@ function LogInCom() {
   };
 
   return (
-    <div className={classes.container}>
-      <form className={classes.form} onSubmit={onSubmit}>
-        <div className={classes["from-control"]}>
-          <label htmlFor="">Email</label>
-          <input
-            className="input-form"
-            type="email"
-            placeholder="Email"
-            name="email"
-            onChange={onChange}
-          />
-        </div>
-        <div className={classes["from-control"]}>
-          <label htmlFor="">Password</label>
-          <input
-            className="input-form"
-            type="password"
-            placeholder="Password"
-            name="password"
-            onChange={onChange}
-          />
-        </div>
-        <div className={classes["from-control"]}>
-          <Button placeholder="Login"></Button>
-        </div>
-      </form>
-    </div>
+    <>
+      <div className={classes.container}>
+        <form className={classes.form} onSubmit={onSubmit}>
+          <div className={classes.pageInfo}>
+            <p>Login</p>
+          </div>
+
+          <div className={classes["from-control"]}>
+            <label htmlFor="">Email</label>
+            <input
+              className="input-form"
+              type="email"
+              placeholder="Email"
+              name="email"
+              onChange={onChange}
+            />
+          </div>
+          <div className={classes["from-control"]}>
+            <label htmlFor="">Password</label>
+            <input
+              className="input-form"
+              type="password"
+              placeholder="Password"
+              name="password"
+              onChange={onChange}
+            />
+          </div>
+          <div className={classes["from-control"]}>
+            <Button placeholder="Login"></Button>
+          </div>
+        </form>
+      </div>
+    </>
   );
 }
 
