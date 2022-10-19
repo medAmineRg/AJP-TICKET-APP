@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loadUser, reset, signup } from "../../features/auth/authSlice";
 import { toast } from "react-toastify";
 import Button from "../ui/button";
+import { FaUser } from "react-icons/fa";
 
 function SignUpCom() {
   const router = useRouter();
@@ -50,6 +51,10 @@ function SignUpCom() {
   return (
     <div className={classes.container}>
       <form className={classes.form} onSubmit={onSubmit}>
+        <div className={classes.pageInfo}>
+          <p>Register</p>
+        </div>
+
         <div className={classes["from-control"]}>
           <label>Email</label>
           <input
