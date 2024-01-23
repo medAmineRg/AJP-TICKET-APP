@@ -28,6 +28,7 @@ const User = require("./models/User");
 
 db.authenticate()
   .then(async () => {
+    await db.sync();
     const [roleAdmin, createdAdminRole] = await Role.findOrCreate({
       where: { role: "Admin" },
     });
@@ -37,7 +38,7 @@ db.authenticate()
     console.log("Sync DB Successfully");
     console.log("connect to the database:");
   })
-  .catch(error => {
+  .catch((error) => {
     console.log(error);
     console.error("Unable to connect to the database:", error);
   });
